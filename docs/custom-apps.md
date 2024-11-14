@@ -7,16 +7,16 @@ Create following `apps.json` file:
 ```json
 [
   {
-    "url": "https://github.com/frappe/erpnext",
-    "branch": "version-15"
+      "url": "https://github.com/frappe/insights",
+      "branch": "develop"
   },
   {
-    "url": "https://github.com/frappe/payments",
-    "branch": "version-15"
+      "url": "https://github.com/frappe/builder",
+      "branch": "develop"
   },
   {
-    "url": "https://{{ PAT }}@git.example.com/project/repository.git",
-    "branch": "main"
+      "url": "https://github.com/frappe/crm",
+      "branch": "develop"
   }
 ]
 ```
@@ -30,7 +30,7 @@ Note:
 Generate base64 string from json file:
 
 ```shell
-export APPS_JSON_BASE64=$(base64 -w 0 /path/to/apps.json)
+export APPS_JSON_BASE64=$(base64 -i apps.json)
 ```
 
 Test the Previous Step: Decode the Base64-encoded Environment Variable
