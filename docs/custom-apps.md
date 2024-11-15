@@ -89,7 +89,7 @@ This method builds the base and build layer every time, it allows to customize P
 It uses `images/custom/Containerfile`.
 
 ```shell
-docker build \
+docker build \                              
   --build-arg=FRAPPE_PATH=https://github.com/frappe/frappe \
   --build-arg=FRAPPE_BRANCH=develop \
   --build-arg=PYTHON_VERSION=3.12.3 \
