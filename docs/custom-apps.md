@@ -74,7 +74,7 @@ This method uses pre-built `frappe/base:${FRAPPE_BRANCH}` and `frappe/build:${FR
 It uses `images/layered/Containerfile`.
 
 ```shell
-docker build \
+docker build --no-cache\
   --build-arg=FRAPPE_PATH=https://github.com/frappe/frappe \
   --build-arg=FRAPPE_BRANCH=version-15 \
   --build-arg=APPS_JSON_BASE64=$APPS_JSON_BASE64 \
