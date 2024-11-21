@@ -40,7 +40,7 @@ To verify the previous step, decode the `APPS_JSON_BASE64` environment variable 
 1. Use the following command to decode and save the output into a JSON file named apps-test-output.json:
 
 ```shell
-echo -n ${APPS_JSON_BASE64} | base64 -d > apps-test-output.json
+echo -n "$APPS_JSON_BASE64" | base64 -d > apps-test-output.json
 ```
 
 2. Open the apps-test-output.json file to review the JSON output and ensure that the content is correct.
