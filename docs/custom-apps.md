@@ -11,6 +11,22 @@ Create following `apps.json` file:
       "branch": "develop"
   },
   {
+      "url": "https://github.com/frappe/erpnext",
+      "branch": "develop"
+  },
+  {
+      "url": "https://github.com/frappe/payments",
+      "branch": "develop"
+  },
+  {
+      "url": "https://github.com/frappe/frappe-ui",
+      "branch": "main"
+  },
+  {
+      "url": "https://github.com/frappe/hrms",
+      "branch": "develop"
+  },
+  {
       "url": "https://github.com/frappe/builder",
       "branch": "develop"
   },
@@ -82,44 +98,33 @@ docker build --no-cache\
   --file=images/layered/Containerfile .
 ```
 
-### Custom build image
 
-This method builds the base and build layer every time, it allows to customize Python and NodeJS runtime versions. It takes more time to build.
+Puch Docker Image to ECR
 
-It uses `images/custom/Containerfile`.
+```
+# Authenticate Docker to ECR
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 054089436714.dkr.ecr.us-east-1.amazonaws.com
 
-```shell
-docker build \                              
-  --build-arg=FRAPPE_PATH=https://github.com/frappe/frappe \
-  --build-arg=FRAPPE_BRANCH=develop \
-  --build-arg=PYTHON_VERSION=3.12.3 \
-  --build-arg=NODE_VERSION=20.9.0 \
-  --build-arg=APPS_JSON_BASE64=$APPS_JSON_BASE64 \
-  --tag=admin365/frappe_essentials:1.0.0 \
-  --file=images/custom/Containerfile .
+# Build the Docker image
+docker build \
+  --build-arg FRAPPE_PATH=https://github.com/frappe/frappe \
+  --build-arg FRAPPE_BRANCH=develop \
+  --build-arg PYTHON_VERSION=3.12.3 \
+  --build-arg NODE_VERSION=20.9.0 \
+  --build-arg APPS_JSON_BASE64="$APPS_JSON_BASE64" \
+  --tag erp-system:1.0.0 \
+  --file images/custom/Containerfile .
+
+# Create the ECR repository (if it doesn't exist)
+aws ecr create-repository --repository-name erp-system --region us-east-1
+
+# Tag the Docker image for ECR
+docker tag erp-system:1.0.0 123456789012.dkr.ecr.us-east-1.amazonaws.com/erp-system:1.0.0
+
+# Push the Docker image to ECR
+docker push 123456789012.dkr.ecr.us-east-1.amazonaws.com/erp-system:1.0.0
 ```
 
-Custom build args,
-
-- `PYTHON_VERSION`, use the specified python version for base image. Default is `3.11.6`.
-- `NODE_VERSION`, use the specified nodejs version, Default `18.18.2`.
-- `DEBIAN_BASE` use the base Debian version, defaults to `bookworm`.
-- `WKHTMLTOPDF_VERSION`, use the specified qt patched `wkhtmltopdf` version. Default is `0.12.6.1-3`.
-- `WKHTMLTOPDF_DISTRO`, use the specified distro for debian package. Default is `bookworm`.
-
-### Push image to use in yaml files
-
-Login to `docker` or `buildah`
-
-```shell
-docker login
-```
-
-Push image
-
-```shell
-docker push ghcr.io/user/repo/custom:1.0.0
-```
 
 ### Use Images
 
