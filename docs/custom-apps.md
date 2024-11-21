@@ -122,7 +122,7 @@ aws ecr create-repository --repository-name erp-system --region us-east-1
 docker tag erp-system:1.0.0 054089436714.dkr.ecr.us-east-1.amazonaws.com/erp-system:1.0.0
 
 # Push the Docker image to ECR
-docker push 123456789012.dkr.ecr.us-east-1.amazonaws.com/erp-system:1.0.0
+docker push 054089436714.dkr.ecr.us-east-1.amazonaws.com/erp-system:1.0.0
 ```
 
 
